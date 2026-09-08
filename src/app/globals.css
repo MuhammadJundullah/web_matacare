@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-inter: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    color: #0f243b;
+    background-color: #f8fbfe;
+  }
+
+  body {
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00a3e0;
+}
+
+/* Eye banner subtle pattern */
+.bg-grid-pattern {
+  background-image: radial-gradient(#00a3e0 0.75px, transparent 0.75px);
+  background-size: 24px 24px;
+}
+
+.bg-radial-gradient {
+  background: radial-gradient(circle at top right, rgba(0, 163, 224, 0.12), transparent 50%),
+              radial-gradient(circle at bottom left, rgba(245, 166, 35, 0.08), transparent 50%);
+}
