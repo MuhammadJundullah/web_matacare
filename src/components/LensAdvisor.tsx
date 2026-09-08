@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { LENS_PRODUCTS, LensProduct, formatRupiah } from '@/data/catalog';
+import { LENS_PRODUCTS, LensProduct } from '@/data/catalog';
 import { 
   Sparkles, 
   X, 
@@ -77,7 +77,7 @@ export const LensAdvisor: React.FC<LensAdvisorProps> = ({ isOpen, onClose }) => 
   };
 
   const getWaLink = (product: LensProduct) => {
-    const text = `Halo MataCare Optik, saya mencoba fitur Tanya Lensa di web dan mendapatkan rekomendasi *${product.name}* (${formatRupiah(product.discountedPrice)}). Saya ingin konsultasi lebih lanjut dengan optik keliling. Terima kasih!`;
+    const text = `Halo MataCare Optik, saya mencoba fitur Rekomendasi Lensa di web dan tertarik dengan jenis lensa *${product.name}* (${product.series}). Saya ingin konsultasi lebih lanjut dengan optik keliling. Terima kasih!`;
     return `https://wa.me/6282272108340?text=${encodeURIComponent(text)}`;
   };
 
@@ -187,7 +187,7 @@ export const LensAdvisor: React.FC<LensAdvisorProps> = ({ isOpen, onClose }) => 
                 { id: 'bluelight', label: 'Anti Radiasi Blue Light', desc: 'Mata tidak lelah & perih melihat layar monitor' },
                 { id: 'photochromic', label: 'Bisa Berubah Gelap', desc: 'Otomatis gelap saat kena matahari, praktis' },
                 { id: 'driving', label: 'Anti Silau Kendaraan', desc: 'Tajam saat hujan & bebas silau lampu lawan arah' },
-                { id: 'budget', label: 'Hemat & Standar', desc: 'Lensa jernih berkualitas dengan harga terjangkau' },
+                { id: 'budget', label: 'Standar & Jernih', desc: 'Lensa jernih berkualitas untuk kenyamanan harian' },
               ].map((item) => {
                 const isSelected = priority === item.id;
                 return (
@@ -233,14 +233,11 @@ export const LensAdvisor: React.FC<LensAdvisorProps> = ({ isOpen, onClose }) => 
                 </div>
 
                 <div className="text-left sm:text-right bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs shrink-0">
-                  <span className="text-[10px] text-slate-400 line-through block">
-                    {formatRupiah(recommended.originalPrice)}
+                  <span className="text-xs font-bold text-matablue-900 block">
+                    Rekomendasi Terbaik
                   </span>
-                  <span className="text-xl font-black text-matanavy-900 block">
-                    {formatRupiah(recommended.discountedPrice)}
-                  </span>
-                  <span className="inline-block text-[10px] font-bold text-matared-500 bg-red-50 px-2 py-0.5 rounded-full">
-                    Diskon Promo 10%
+                  <span className="text-[11px] text-emerald-600 font-semibold block mt-0.5">
+                    ✓ Garansi Resmi Medis
                   </span>
                 </div>
               </div>

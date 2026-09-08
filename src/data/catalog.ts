@@ -2,9 +2,9 @@ export interface LensProduct {
   id: string;
   name: string;
   series: 'Standar & Proteksi' | 'Progresif' | 'One Drive';
-  originalPrice: number;
-  discountPercent: number;
-  discountedPrice: number;
+  originalPrice?: number;
+  discountPercent?: number;
+  discountedPrice?: number;
   description: string;
   highlights: string[];
   bestFor: string;
@@ -223,11 +223,3 @@ export const LENS_PRODUCTS: LensProduct[] = [
     drivingOptimized: true,
   },
 ];
-
-export const formatRupiah = (val: number): string => {
-  return new Intl.NumberFormat('id-ID', {
-    style: 'currency',
-    currency: 'IDR',
-    maximumFractionDigits: 0,
-  }).format(val);
-};

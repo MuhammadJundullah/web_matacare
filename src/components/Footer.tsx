@@ -8,15 +8,10 @@ import {
   ShieldCheck, 
   Car, 
   Heart, 
-  ArrowUp,
-  FileText
+  ArrowUp
 } from 'lucide-react';
 
-interface FooterProps {
-  onOpenFlyer: () => void;
-}
-
-export const Footer: React.FC<FooterProps> = ({ onOpenFlyer }) => {
+export const Footer: React.FC = () => {
   const scrollToTop = () => {
     if (typeof window !== 'undefined') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -85,38 +80,39 @@ export const Footer: React.FC<FooterProps> = ({ onOpenFlyer }) => {
           {/* Col 3: Ragam Lensa Unggulan */}
           <div className="lg:col-span-3 space-y-3">
             <h4 className="text-sm font-bold uppercase tracking-wider text-matablue-400">
-              Katalog Lensa Resmi
+              Pilihan Jenis Lensa
             </h4>
 
-            <ul className="space-y-1.5 text-xs text-slate-300">
+            <ul className="space-y-2 text-xs text-slate-300">
               <li>
-                <Link href="#katalog" className="hover:text-matablue-300 transition flex items-center gap-1.5">
-                  <span>• Lensa Biasa & Anti Radiasi (Blueray)</span>
+                <Link href="#pilihan-lensa" className="hover:text-matablue-300 transition flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-matablue-400 shrink-0" />
+                  <span>Lensa Standar & Anti Radiasi (Blueray)</span>
                 </Link>
               </li>
               <li>
-                <Link href="#katalog" className="hover:text-matablue-300 transition flex items-center gap-1.5">
-                  <span>• Lensa Photocromic & Bluechromic 2-in-1</span>
+                <Link href="#pilihan-lensa" className="hover:text-matablue-300 transition flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-matablue-400 shrink-0" />
+                  <span>Lensa Photocromic (Transisi Gelap UV)</span>
                 </Link>
               </li>
               <li>
-                <Link href="#katalog" className="hover:text-matablue-300 transition flex items-center gap-1.5">
-                  <span>• Progresif CRMC, Photocromic & Bluechromic</span>
+                <Link href="#pilihan-lensa" className="hover:text-matablue-300 transition flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-matablue-400 shrink-0" />
+                  <span>Bluechromic 2-in-1 (Gadget & Outdoor)</span>
                 </Link>
               </li>
               <li>
-                <Link href="#katalog" className="hover:text-matablue-300 transition flex items-center gap-1.5">
-                  <span>• Seri One Drive Khusus Berkendara</span>
+                <Link href="#pilihan-lensa" className="hover:text-matablue-300 transition flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-matablue-400 shrink-0" />
+                  <span>Progresif Multi-Jarak (Jauh & Dekat)</span>
                 </Link>
               </li>
-              <li className="pt-2">
-                <button
-                  onClick={onOpenFlyer}
-                  className="inline-flex items-center gap-1.5 text-matagold-400 hover:text-matagold-300 text-xs font-semibold underline"
-                >
-                  <FileText className="w-3.5 h-3.5" />
-                  <span>Buka Brosur Flyer Asli (Diskon 10%)</span>
-                </button>
+              <li>
+                <Link href="#pilihan-lensa" className="hover:text-matablue-300 transition flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-matablue-400 shrink-0" />
+                  <span>Seri One Drive Khusus Berkendara</span>
+                </Link>
               </li>
             </ul>
           </div>

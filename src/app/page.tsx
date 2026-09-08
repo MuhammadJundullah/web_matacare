@@ -4,40 +4,34 @@ import React, { useState } from 'react';
 import { Navbar } from '@/components/Navbar';
 import { Hero } from '@/components/Hero';
 import { Features } from '@/components/Features';
-import { CatalogSection } from '@/components/CatalogSection';
+import { LensSection } from '@/components/LensSection';
 import { MobileServiceSection } from '@/components/MobileServiceSection';
 import { DocumentationGallery } from '@/components/DocumentationGallery';
 import { BookingForm } from '@/components/BookingForm';
 import { Footer } from '@/components/Footer';
-import { FlyerModal } from '@/components/FlyerModal';
 import { LensAdvisor } from '@/components/LensAdvisor';
 import { PhoneCall, Sparkles } from 'lucide-react';
 
 export default function Home() {
-  const [flyerModalOpen, setFlyerModalOpen] = useState<boolean>(false);
   const [advisorModalOpen, setAdvisorModalOpen] = useState<boolean>(false);
 
   return (
     <main className="min-h-screen flex flex-col relative">
       {/* Navigation */}
       <Navbar 
-        onOpenFlyer={() => setFlyerModalOpen(true)}
         onOpenAdvisor={() => setAdvisorModalOpen(true)}
       />
 
       {/* Hero Header */}
       <Hero 
-        onOpenFlyer={() => setFlyerModalOpen(true)}
         onOpenAdvisor={() => setAdvisorModalOpen(true)}
       />
 
-      {/* Keunggulan Kami (5 Icons from flyer) */}
+      {/* Keunggulan Kami */}
       <Features />
 
-      {/* Catalog & Prices with 10% Discount */}
-      <CatalogSection 
-        onOpenFlyer={() => setFlyerModalOpen(true)}
-      />
+      {/* Pilihan Lensa Kacamata (Tanpa Harga) */}
+      <LensSection />
 
       {/* Mobile Clinic Showcase ("Datang ke Tempat Anda") */}
       <MobileServiceSection />
@@ -49,16 +43,9 @@ export default function Home() {
       <BookingForm />
 
       {/* Footer */}
-      <Footer 
-        onOpenFlyer={() => setFlyerModalOpen(true)}
-      />
+      <Footer />
 
       {/* Modals */}
-      <FlyerModal 
-        isOpen={flyerModalOpen}
-        onClose={() => setFlyerModalOpen(false)}
-      />
-
       <LensAdvisor 
         isOpen={advisorModalOpen}
         onClose={() => setAdvisorModalOpen(false)}

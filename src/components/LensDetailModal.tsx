@@ -1,7 +1,7 @@
-'use client';
+﻿'use client';
 
 import React from 'react';
-import { LensProduct, formatRupiah } from '@/data/catalog';
+import { LensProduct } from '@/data/catalog';
 import { 
   X, 
   Check, 
@@ -14,16 +14,16 @@ import {
   Sparkles
 } from 'lucide-react';
 
-interface ProductDetailModalProps {
+interface LensDetailModalProps {
   product: LensProduct | null;
   onClose: () => void;
 }
 
-export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, onClose }) => {
+export const LensDetailModal: React.FC<LensDetailModalProps> = ({ product, onClose }) => {
   if (!product) return null;
 
   const getWaLink = () => {
-    const text = `Halo MataCare Optik, saya ingin memesan/konsultasi mengenai *${product.name}* (Promo Diskon 10%: ${formatRupiah(product.discountedPrice)}). Mohon info ketersediaan dan cara pemeriksaannya. Terima kasih!`;
+    const text = `Halo MataCare Optik, saya ingin konsultasi mengenai Lensa *${product.name}* (${product.series}). Mohon info ketersediaan dan jadwal pemeriksaan keliling ke lokasi saya. Terima kasih!`;
     return `https://wa.me/6282272108340?text=${encodeURIComponent(text)}`;
   };
 
@@ -62,25 +62,16 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product,
         {/* Modal Body */}
         <div className="p-6 overflow-y-auto space-y-6">
           
-          {/* Price Box */}
-          <div className="flex items-center justify-between p-4 rounded-2xl bg-matablue-50/70 border border-matablue-200/70">
+          {/* Highlight Box */}
+          <div className="flex items-center justify-between p-4 rounded-2xl bg-matablue-50/80 border border-matablue-200/80">
             <div>
-              <span className="text-xs text-slate-500 block">Harga Katalog Resmi</span>
-              <span className="text-sm line-through text-slate-400 font-medium">
-                {formatRupiah(product.originalPrice)}
-              </span>
-              <div className="flex items-baseline gap-2">
-                <span className="text-2xl sm:text-3xl font-black text-matanavy-900">
-                  {formatRupiah(product.discountedPrice)}
-                </span>
-                <span className="text-xs font-bold text-matared-500 bg-red-100 px-2 py-0.5 rounded-full">
-                  Hemat {formatRupiah(product.originalPrice - product.discountedPrice)} (-10%)
-                </span>
-              </div>
+              <span className="text-xs font-bold text-matablue-900 uppercase tracking-wider block">Standar Optik Medis</span>
+              <p className="text-xs text-slate-600 mt-0.5">
+                Pemeriksaan refraksi presisi & fitting frame langsung di lokasi Anda oleh tenaga profesional.
+              </p>
             </div>
-            <div className="w-12 h-12 rounded-2xl bg-matared-500 text-white flex flex-col items-center justify-center font-black shadow-md">
-              <span className="text-xs leading-none">OFF</span>
-              <span className="text-sm leading-tight">10%</span>
+            <div className="w-11 h-11 rounded-2xl bg-matablue-500 text-white flex items-center justify-center shadow-sm shrink-0 ml-3">
+              <ShieldCheck className="w-6 h-6" />
             </div>
           </div>
 
@@ -155,7 +146,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product,
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-matablue-500 hover:bg-matablue-600 text-white font-bold text-xs sm:text-sm shadow-md shadow-matablue-500/20 transition"
           >
-            <span>Pesan Lensa via WhatsApp</span>
+            <span>Konsultasi via WhatsApp</span>
             <ExternalLink className="w-4 h-4" />
           </a>
         </div>

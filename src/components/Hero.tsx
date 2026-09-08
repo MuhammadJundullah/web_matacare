@@ -8,18 +8,16 @@ import {
   CheckCircle2, 
   ArrowRight, 
   Sparkles, 
-  Eye, 
   ShieldCheck, 
-  ZoomIn,
+  Calendar,
   Car
 } from 'lucide-react';
 
 interface HeroProps {
-  onOpenFlyer: () => void;
   onOpenAdvisor: () => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onOpenFlyer, onOpenAdvisor }) => {
+export const Hero: React.FC<HeroProps> = ({ onOpenAdvisor }) => {
   return (
     <section className="relative overflow-hidden pt-8 pb-16 lg:pt-14 lg:pb-24 bg-gradient-to-b from-matablue-50/60 via-white to-slate-50">
       {/* Decorative background glow circles */}
@@ -41,17 +39,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenFlyer, onOpenAdvisor }) => {
             <h1 className="text-3xl sm:text-5xl lg:text-5xl xl:text-6xl font-black text-matanavy-900 tracking-tight leading-[1.15]">
               Layanan Optik Keliling & <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-matablue-500 via-matablue-600 to-matanavy-800">
-                Katalog Lensa Kacamata
+                Pemeriksaan Mata Profesional
               </span>
             </h1>
 
             {/* Subtitle */}
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl font-normal">
               <strong className="text-matanavy-900 font-semibold">MataCare Optik</strong> siap datang langsung ke tempat Anda 
-              (kantor, sekolah, perumahan, maupun keluarga). Nikmati pemeriksaan mata profesional dan dapatkan lensa kacamata terbaik dengan{' '}
-              <span className="inline-block font-bold text-matared-500 bg-red-50 px-2 py-0.5 rounded-md border border-red-200">
-                Diskon Spesial 10%
-              </span>.
+              (kantor, sekolah, perumahan, maupun keluarga). Nikmati pemeriksaan mata profesional, refraksi akurat, dan dapatkan kacamata terbaik dengan pelayanan ramah & bergaransi.
             </p>
 
             {/* Key feature pills */}
@@ -73,20 +68,20 @@ export const Hero: React.FC<HeroProps> = ({ onOpenFlyer, onOpenAdvisor }) => {
             {/* Call to actions */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
-                href="#katalog"
+                href="#booking"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-matablue-500 hover:bg-matablue-600 text-white font-bold text-base shadow-lg shadow-matablue-500/25 hover:shadow-xl hover:shadow-matablue-500/30 transition transform hover:-translate-y-0.5"
               >
-                <Glasses className="w-5 h-5" />
-                <span>Lihat Katalog & Harga</span>
+                <Calendar className="w-5 h-5" />
+                <span>Jadwalkan Kunjungan</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
 
               <a
-                href="#booking"
+                href="#pilihan-lensa"
                 className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-matanavy-900 font-bold text-base border-2 border-matanavy-800/20 hover:border-matanavy-800/40 shadow-sm transition"
               >
-                <MapPin className="w-5 h-5 text-matablue-600" />
-                <span>Jadwalkan Kunjungan</span>
+                <Glasses className="w-5 h-5 text-matablue-600" />
+                <span>Pilihan Lensa</span>
               </a>
 
               <button
@@ -117,12 +112,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenFlyer, onOpenAdvisor }) => {
             {/* Card Container */}
             <div className="relative mx-auto max-w-md lg:max-w-none">
               
-              {/* Floating Top Badge: Diskon 10% */}
-              <div className="absolute -top-4 -left-4 z-20 bg-gradient-to-r from-matared-500 to-rose-600 text-white px-4 py-2 rounded-2xl shadow-xl shadow-red-500/30 flex items-center gap-2 border border-white/20 transform -rotate-2">
-                <span className="text-2xl font-black">-10%</span>
+              {/* Floating Top Badge: Layanan Profesional */}
+              <div className="absolute -top-4 -left-4 z-20 bg-gradient-to-r from-matablue-600 to-matanavy-900 text-white px-4 py-2 rounded-2xl shadow-xl shadow-matablue-500/20 flex items-center gap-2 border border-white/20 transform -rotate-2">
+                <Sparkles className="w-5 h-5 text-matagold-400" />
                 <div className="text-left text-[11px] leading-tight font-medium">
-                  <span className="block font-bold">Semua Jenis Lensa</span>
-                  <span className="opacity-90">Harga Spesial Promo</span>
+                  <span className="block font-bold">Layanan Keliling</span>
+                  <span className="opacity-90">Bebas Antre & Nyaman</span>
                 </div>
               </div>
 
@@ -137,45 +132,35 @@ export const Hero: React.FC<HeroProps> = ({ onOpenFlyer, onOpenAdvisor }) => {
                 </div>
               </div>
 
-              {/* Central Flyer Preview Card */}
-              <div 
-                onClick={onOpenFlyer}
-                className="group relative cursor-pointer rounded-3xl overflow-hidden bg-white p-3 shadow-2xl border border-slate-200/80 transition transform hover:scale-[1.02] hover:shadow-matablue-500/10"
-              >
+              {/* Central Visual Showcase Card */}
+              <div className="relative rounded-3xl overflow-hidden bg-white p-3 shadow-2xl border border-slate-200/80">
                 <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden bg-slate-100">
                   <Image
-                    src="/images/flyer-matacare.jpg"
-                    alt="Katalog Resmi MataCare Optik"
+                    src="https://images.unsplash.com/photo-1591076482161-42ce6da69f67?auto=format&fit=crop&w=800&q=80"
+                    alt="Layanan Pemeriksaan Mata dan Kacamata MataCare Optik"
                     fill
-                    className="object-cover transition duration-500 group-hover:scale-105"
+                    className="object-cover"
                     priority
                   />
                   
-                  {/* Overlay on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-matanavy-950/80 via-matanavy-900/20 to-transparent opacity-90 group-hover:opacity-100 transition flex flex-col justify-end p-5 text-white">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <span className="text-xs uppercase tracking-wider font-semibold text-matagold-400">
-                          Flyer & Brosur Resmi
-                        </span>
-                        <h3 className="text-lg font-bold text-white leading-tight">
-                          Katalog Harga Lensa Kacamata
-                        </h3>
-                        <p className="text-xs text-slate-200 mt-0.5">
-                          Klik untuk memperbesar & membaca rincian
-                        </p>
-                      </div>
-                      <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white group-hover:bg-matablue-500 transition">
-                        <ZoomIn className="w-5 h-5" />
-                      </div>
-                    </div>
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-matanavy-950/85 via-matanavy-900/30 to-transparent flex flex-col justify-end p-5 text-white">
+                    <span className="text-xs uppercase tracking-wider font-semibold text-matagold-400">
+                      Optik Keliling Profesional
+                    </span>
+                    <h3 className="text-lg font-bold text-white leading-tight mt-1">
+                      Pemeriksaan Refraksi & Fitting Kacamata
+                    </h3>
+                    <p className="text-xs text-slate-200 mt-1 leading-relaxed">
+                      Kami hadir membawa peralatan refraksi modern dan ratusan koleksi bingkai langsung ke lokasi Anda.
+                    </p>
                   </div>
                 </div>
 
-                {/* Sub banner under flyer */}
+                {/* Sub banner under photo */}
                 <div className="mt-3 px-3 py-2 bg-slate-50 rounded-xl flex items-center justify-between text-xs text-slate-600">
                   <span className="font-semibold text-matanavy-900">Kualitas Terbaik Untuk Penglihatan Anda</span>
-                  <span className="text-matablue-600 font-bold hover:underline">Perbesar ↗</span>
+                  <a href="#booking" className="text-matablue-600 font-bold hover:underline">Jadwalkan ↗</a>
                 </div>
               </div>
 

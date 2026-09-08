@@ -2,14 +2,14 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'MataCare Optik | Jelas Melihat, Hidup Lebih Baik - Optik Keliling & Katalog Lensa',
-  description: 'MataCare Optik menyediakan katalog harga lensa terlengkap (Anti Radiasi, Photocromic, Bluechromic, Progresif, One Drive) dan layanan pemeriksaan kesehatan mata keliling langsung datang ke tempat Anda.',
-  keywords: ['MataCare Optik', 'Metacare', 'Katalog Kacamata', 'Harga Lensa', 'Pemeriksaan Mata Keliling', 'Photocromic', 'Bluechromic', 'Lensa Progresif', 'One Drive'],
+  title: 'MataCare Optik | Jelas Melihat, Hidup Lebih Baik - Layanan Optik Keliling',
+  description: 'MataCare Optik menyediakan layanan pemeriksaan kesehatan mata keliling langsung datang ke tempat Anda dengan tenaga profesional, refraksi akurat, dan kacamata berkualitas.',
+  keywords: ['MataCare Optik', 'Metacare', 'Optik Keliling', 'Pemeriksaan Mata Keliling', 'Layanan Kacamata', 'Photocromic', 'Bluechromic', 'Lensa Progresif', 'One Drive'],
   icons: {
     icon: '/favicon.ico',
   },
   openGraph: {
-    title: 'MataCare Optik - Layanan Optik Keliling & Katalog Kacamata',
+    title: 'MataCare Optik - Layanan Optik Keliling Profesional',
     description: 'Jelas melihat, hidup lebih baik. Datang langsung ke tempat Anda untuk pemeriksaan mata & kacamata berkualitas.',
     type: 'website',
     locale: 'id_ID',

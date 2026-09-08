@@ -1,11 +1,10 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
-import { LENS_PRODUCTS, LensProduct, formatRupiah } from '@/data/catalog';
-import { ProductDetailModal } from './ProductDetailModal';
+import { LENS_PRODUCTS, LensProduct } from '@/data/catalog';
+import { LensDetailModal } from './LensDetailModal';
 import { 
   Search, 
-  Tag, 
   Sparkles, 
   Check, 
   PhoneCall, 
@@ -14,14 +13,11 @@ import {
   Laptop, 
   Eye, 
   Car,
-  FileText
+  Glasses,
+  ShieldCheck
 } from 'lucide-react';
 
-interface CatalogSectionProps {
-  onOpenFlyer: () => void;
-}
-
-export const CatalogSection: React.FC<CatalogSectionProps> = ({ onOpenFlyer }) => {
+export const LensSection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('Semua');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedProduct, setSelectedProduct] = useState<LensProduct | null>(null);
@@ -38,39 +34,36 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ onOpenFlyer }) =
   });
 
   const getWaLink = (product: LensProduct) => {
-    const text = `Halo MataCare Optik, saya ingin memesan/tanya info promo Lensa *${product.name}* (Harga Promo Diskon 10%: ${formatRupiah(product.discountedPrice)}). Mohon petunjuk pemesanan dan jadwal periksa keliling. Terima kasih!`;
+    const text = `Halo MataCare Optik, saya tertarik dan ingin konsultasi mengenai Lensa *${product.name}* (${product.series}). Mohon info jadwal periksa keliling ke tempat saya. Terima kasih!`;
     return `https://wa.me/6282272108340?text=${encodeURIComponent(text)}`;
   };
 
   return (
-    <section id="katalog" className="py-16 sm:py-24 bg-white relative">
+    <section id="pilihan-lensa" className="py-16 sm:py-24 bg-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-matablue-50 border border-matablue-200 text-matablue-700 text-xs font-bold mb-3">
-              <Tag className="w-3.5 h-3.5 text-matablue-500" />
-              <span>Promo Diskon 10% Semua Lensa</span>
+              <Glasses className="w-3.5 h-3.5 text-matablue-500" />
+              <span>Pilihan Lensa Kacamata Berkualitas</span>
             </div>
 
             <h2 className="text-3xl sm:text-4xl font-black text-matanavy-900 tracking-tight">
-              Katalog Harga <span className="text-matablue-500">Lensa Kacamata</span>
+              Ragam Pilihan <span className="text-matablue-500">Lensa Kacamata</span>
             </h2>
 
-            <p className="text-slate-600 text-sm sm:text-base mt-2 max-w-xl">
-              Kualitas terbaik untuk penglihatan Anda. Harga resmi tercantum di bawah ini sudah termasuk potongan diskon promo 10%.
+            <p className="text-slate-600 text-sm sm:text-base mt-2 max-w-2xl leading-relaxed">
+              Temukan lensa yang paling sesuai dengan kebutuhan mata dan aktivitas Anda. Seluruh lensa berstandar optik medis dan siap dicocokkan langsung saat kunjungan optik keliling ke lokasi Anda.
             </p>
           </div>
 
-          {/* Flyer Quick Trigger */}
-          <button
-            onClick={onOpenFlyer}
-            className="self-start md:self-auto inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-semibold border border-slate-300/80 shadow-xs transition"
-          >
-            <FileText className="w-4 h-4 text-matablue-600" />
-            <span>Lihat Flyer Brosur Asli</span>
-          </button>
+          {/* Guarantee Badge */}
+          <div className="self-start md:self-auto inline-flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700">
+            <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span>100% Lensa Bergaransi Resmi Medis</span>
+          </div>
         </div>
 
         {/* Filter & Search Controls */}
@@ -88,7 +81,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ onOpenFlyer }) =
                     : 'bg-white text-slate-600 hover:text-matanavy-900 hover:bg-slate-100 border border-slate-200/60'
                 }`}
               >
-                {cat === 'Semua' ? 'Semua Lensa' : cat}
+                {cat === 'Semua' ? 'Semua Pilihan' : cat}
               </button>
             ))}
           </div>
@@ -130,23 +123,18 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ onOpenFlyer }) =
                 >
                   {/* Card Top Header */}
                   <div className="p-6 pb-4">
-                    {/* Top Row: Category and -10% Badge */}
+                    {/* Top Row: Category and Badge */}
                     <div className="flex items-center justify-between gap-2 mb-3">
                       <span className="text-[11px] font-bold uppercase tracking-wider text-matablue-600 bg-matablue-50 px-2.5 py-1 rounded-lg border border-matablue-100">
                         {product.series}
                       </span>
 
-                      <div className="flex items-center gap-1.5">
-                        {product.popularBadge && (
-                          <span className="text-[10px] font-bold text-amber-900 bg-matagold-100 border border-matagold-300 px-2 py-0.5 rounded-md flex items-center gap-1">
-                            <Sparkles className="w-3 h-3 text-matagold-600" />
-                            Favorit
-                          </span>
-                        )}
-                        <span className="px-2.5 py-1 rounded-full text-xs font-black bg-matared-500 text-white shadow-xs animate-bounce">
-                          -10%
+                      {product.popularBadge && (
+                        <span className="text-[10px] font-bold text-amber-900 bg-matagold-100 border border-matagold-300 px-2 py-0.5 rounded-md flex items-center gap-1">
+                          <Sparkles className="w-3 h-3 text-matagold-600" />
+                          {product.popularBadge}
                         </span>
-                      </div>
+                      )}
                     </div>
 
                     {/* Product Title */}
@@ -154,32 +142,24 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ onOpenFlyer }) =
                       {product.name}
                     </h3>
 
-                    {/* Price Section */}
-                    <div className="bg-gradient-to-br from-matablue-50/80 to-blue-50/40 p-3.5 rounded-2xl border border-matablue-100/80 mb-4">
-                      <div className="flex items-center justify-between text-xs text-slate-500">
-                        <span>Harga Normal:</span>
-                        <span className="line-through font-medium text-slate-400">
-                          {formatRupiah(product.originalPrice)}
-                        </span>
-                      </div>
-                      <div className="flex items-baseline justify-between mt-1">
-                        <span className="text-xs font-semibold text-matablue-800">
-                          Harga Setelah Diskon:
-                        </span>
-                        <span className="text-xl sm:text-2xl font-black text-matanavy-900">
-                          {formatRupiah(product.discountedPrice)}
-                        </span>
-                      </div>
+                    {/* Best For Callout Box */}
+                    <div className="bg-gradient-to-br from-matablue-50/60 to-blue-50/30 p-3.5 rounded-2xl border border-matablue-100/70 mb-4">
+                      <span className="text-[11px] font-bold text-matablue-900 uppercase tracking-wider block">
+                        Cocok Untuk:
+                      </span>
+                      <p className="text-xs text-slate-700 mt-1 font-medium leading-relaxed">
+                        {product.bestFor}
+                      </p>
                     </div>
 
-                    {/* Official Description */}
+                    {/* Description */}
                     <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
                       {product.description}
                     </p>
 
                     {/* Feature Chips */}
                     <div className="space-y-1.5 pt-1">
-                      {product.highlights.slice(0, 2).map((item, idx) => (
+                      {product.highlights.slice(0, 3).map((item, idx) => (
                         <div key={idx} className="flex items-center gap-2 text-xs text-slate-700">
                           <Check className="w-3.5 h-3.5 text-matablue-500 shrink-0" />
                           <span className="truncate">{item}</span>
@@ -210,7 +190,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ onOpenFlyer }) =
                         </span>
                       )}
                       <span className="text-[11px] text-slate-500 ml-auto italic">
-                        {product.bestFor.split(',')[0]}
+                        {product.series}
                       </span>
                     </div>
 
@@ -233,7 +213,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ onOpenFlyer }) =
                       className="flex-[1.5] py-2.5 px-3 rounded-xl bg-matablue-500 hover:bg-matablue-600 text-white text-xs font-bold transition shadow-xs flex items-center justify-center gap-1.5"
                     >
                       <PhoneCall className="w-3.5 h-3.5" />
-                      <span>Pesan Lensa</span>
+                      <span>Konsultasi Lensa</span>
                     </a>
                   </div>
 
@@ -245,8 +225,8 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ onOpenFlyer }) =
 
       </div>
 
-      {/* Product Detail Modal */}
-      <ProductDetailModal
+      {/* Lens Detail Modal */}
+      <LensDetailModal
         product={selectedProduct}
         onClose={() => setSelectedProduct(null)}
       />
