@@ -37,7 +37,7 @@ export default function Home() {
       <MobileServiceSection />
 
       {/* Photo Documentation Gallery */}
-      {/*<DocumentationGallery />*/}
+      <DocumentationGallery />
 
       {/* Booking Form & WhatsApp Order */}
       <BookingForm />

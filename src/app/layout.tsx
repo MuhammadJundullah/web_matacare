@@ -4,7 +4,7 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'MataCare Optik | Jelas Melihat, Hidup Lebih Baik - Layanan Optik Keliling',
   description: 'MataCare Optik menyediakan layanan pemeriksaan kesehatan mata keliling langsung datang ke tempat Anda dengan tenaga profesional, refraksi akurat, dan kacamata berkualitas.',
-  keywords: ['MataCare Optik', 'Metacare', 'Optik Keliling', 'Pemeriksaan Mata Keliling', 'Layanan Kacamata', 'Photocromic', 'Bluechromic', 'Lensa Progresif', 'One Drive'],
+  keywords: ['MataCare Optik', 'Optik Aceh', 'Optik Aceh Tengah', 'Metacare', 'Optik Keliling', 'Pemeriksaan Mata Keliling', 'Layanan Kacamata', 'Photocromic', 'Bluechromic', 'Lensa Progresif', 'One Drive'],
   icons: {
     icon: '/favicon.ico',
   },
