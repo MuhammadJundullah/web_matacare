@@ -123,7 +123,7 @@ export const MobileServiceSection: React.FC = () => {
 
                 <div className="flex items-center gap-2 text-xs text-slate-300">
                   <MapPin className="w-4 h-4 text-matagold-400" />
-                  <span>Area Pelayanan Jabodetabek & Sekitarnya</span>
+                  <span>Area Pelayanan Aceh Tengah, Bener Meriah & Sekitarnya</span>
                 </div>
               </div>
             </div>
