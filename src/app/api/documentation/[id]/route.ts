@@ -1,20 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import getDb from '@/lib/db';
+import sql, { initializeDatabase } from '@/lib/db';
 import { uploadImage, deleteImage } from '@/lib/cloudinary';
 
-// GET - single documentation
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    await initializeDatabase();
     const { id } = await params;
-    const db = getDb();
-    const doc = db.prepare('SELECT * FROM documentation WHERE id = ?').get(id);
-
-    if (!doc) {
-      return NextResponse.json({ error: 'Dokumentasi tidak ditemukan' }, { status: 404 });
-    }
+    const [doc] = await sql`SELECT * FROM documentation WHERE id = ${id}`;
+    if (!doc) return NextResponse.json({ error: 'Dokumentasi tidak ditemukan' }, { status: 404 });
     return NextResponse.json({ data: doc });
   } catch (error) {
     console.error('GET [id] error:', error);
@@ -22,52 +18,39 @@ export async function GET(
   }
 }
 
-// PUT - update documentation
 export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    await initializeDatabase();
     const { id } = await params;
     const body = await req.json();
     const { title, category, date, location, participants, imageBase64, description, badge } = body;
 
-    const db = getDb();
-    const existing = db.prepare('SELECT * FROM documentation WHERE id = ?').get(id) as
-      | { id: string; image: string; image_public_id: string | null }
-      | undefined;
+    const [existing] = await sql`SELECT * FROM documentation WHERE id = ${id}`;
+    if (!existing) return NextResponse.json({ error: 'Dokumentasi tidak ditemukan' }, { status: 404 });
 
-    if (!existing) {
-      return NextResponse.json({ error: 'Dokumentasi tidak ditemukan' }, { status: 404 });
-    }
+    let imageUrl: string = existing.image as string;
+    let imagePublicId: string | null = existing.image_public_id as string | null;
 
-    let imageUrl = existing.image;
-    let imagePublicId = existing.image_public_id;
-
-    // If new image provided, upload to Cloudinary and delete old one
     if (imageBase64) {
-      // Delete old image from Cloudinary if it has a public_id
-      if (existing.image_public_id) {
-        try {
-          await deleteImage(existing.image_public_id);
-        } catch (e) {
-          console.warn('Failed to delete old image:', e);
-        }
+      if (imagePublicId) {
+        try { await deleteImage(imagePublicId); } catch (e) { console.warn('Failed to delete old image:', e); }
       }
       const result = await uploadImage(imageBase64, 'matacare/documentation');
       imageUrl = result.url;
       imagePublicId = result.public_id;
     }
 
-    db.prepare(`
+    const [updated] = await sql`
       UPDATE documentation
-      SET title = ?, category = ?, date = ?, location = ?, participants = ?,
-          image = ?, image_public_id = ?, description = ?, badge = ?,
-          updated_at = datetime('now')
-      WHERE id = ?
-    `).run(title, category, date, location, Number(participants) || 0, imageUrl, imagePublicId, description, badge, id);
+      SET title=${title}, category=${category}, date=${date}, location=${location},
+          participants=${Number(participants) || 0}, image=${imageUrl}, image_public_id=${imagePublicId},
+          description=${description}, badge=${badge}, updated_at=NOW()
+      WHERE id=${id} RETURNING *
+    `;
 
-    const updated = db.prepare('SELECT * FROM documentation WHERE id = ?').get(id);
     return NextResponse.json({ data: updated });
   } catch (error) {
     console.error('PUT [id] error:', error);
@@ -75,32 +58,21 @@ export async function PUT(
   }
 }
 
-// DELETE - remove documentation
 export async function DELETE(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    await initializeDatabase();
     const { id } = await params;
-    const db = getDb();
-    const existing = db.prepare('SELECT * FROM documentation WHERE id = ?').get(id) as
-      | { id: string; image_public_id: string | null }
-      | undefined;
+    const [existing] = await sql`SELECT * FROM documentation WHERE id = ${id}`;
+    if (!existing) return NextResponse.json({ error: 'Dokumentasi tidak ditemukan' }, { status: 404 });
 
-    if (!existing) {
-      return NextResponse.json({ error: 'Dokumentasi tidak ditemukan' }, { status: 404 });
-    }
-
-    // Delete image from Cloudinary if applicable
     if (existing.image_public_id) {
-      try {
-        await deleteImage(existing.image_public_id);
-      } catch (e) {
-        console.warn('Failed to delete Cloudinary image:', e);
-      }
+      try { await deleteImage(existing.image_public_id as string); } catch (e) { console.warn('Failed to delete Cloudinary image:', e); }
     }
 
-    db.prepare('DELETE FROM documentation WHERE id = ?').run(id);
+    await sql`DELETE FROM documentation WHERE id = ${id}`;
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('DELETE [id] error:', error);
