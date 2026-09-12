@@ -139,6 +139,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAdvisor }) => {
                     src="https://images.unsplash.com/photo-1591076482161-42ce6da69f67?auto=format&fit=crop&w=800&q=80"
                     alt="Layanan Pemeriksaan Mata dan Kacamata MataCare Optik"
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
                     className="object-cover"
                     priority
                   />

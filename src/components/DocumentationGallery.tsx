@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { DOCUMENTATION_ITEMS, IMPACT_STATS, DocumentationItem } from '@/data/documentation';
+import { IMPACT_STATS } from '@/data/documentation';
 import { 
   Camera, 
   MapPin, 
@@ -12,16 +12,39 @@ import {
   ZoomIn, 
   Sparkles, 
   Heart,
-  ChevronRight
+  ChevronRight,
+  Loader2
 } from 'lucide-react';
+
+interface DocumentationItem {
+  id: string;
+  title: string;
+  category: string;
+  date: string;
+  location: string;
+  participants: number;
+  image: string;
+  description: string;
+  badge: string;
+}
 
 export const DocumentationGallery: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('Semua');
   const [activeItem, setActiveItem] = useState<DocumentationItem | null>(null);
+  const [docs, setDocs] = useState<DocumentationItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const categories = ['Semua', 'Kantor & Perusahaan', 'Sekolah & Kampus', 'Komunitas & Baksos', 'Home Service'];
 
-  const filteredDocs = DOCUMENTATION_ITEMS.filter((item) => {
+  useEffect(() => {
+    fetch('/api/documentation')
+      .then((res) => res.json())
+      .then((data) => setDocs(data.data || []))
+      .catch(() => setDocs([]))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const filteredDocs = docs.filter((item) => {
     return activeCategory === 'Semua' || item.category === activeCategory;
   });
 
@@ -33,7 +56,7 @@ export const DocumentationGallery: React.FC = () => {
         <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-matablue-100 border border-matablue-200 text-matablue-800 text-xs font-semibold">
             <Camera className="w-3.5 h-3.5 text-matablue-600" />
-            <span>Galeri Lapangan & Kegiatan Nyata</span>
+            <span>Galeri Lapangan &amp; Kegiatan Nyata</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl font-extrabold text-matanavy-900 tracking-tight">
@@ -78,78 +101,92 @@ export const DocumentationGallery: React.FC = () => {
           ))}
         </div>
 
-        {/* Gallery Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {filteredDocs.map((doc) => (
-            <div
-              key={doc.id}
-              onClick={() => setActiveItem(doc)}
-              className="group cursor-pointer bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-soft hover:shadow-card transition-all duration-300 hover:-translate-y-1.5 flex flex-col"
-            >
-              {/* Photo Area */}
-              <div className="relative w-full aspect-[4/3] bg-slate-100 overflow-hidden">
-                <Image
-                  src={doc.image}
-                  alt={doc.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+        {/* Loading State */}
+        {loading ? (
+          <div className="flex items-center justify-center py-24">
+            <Loader2 className="w-8 h-8 animate-spin text-matablue-500" />
+          </div>
+        ) : filteredDocs.length === 0 ? (
+          <div className="text-center py-24">
+            <Camera className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+            <p className="text-slate-500 text-sm">Belum ada dokumentasi untuk kategori ini.</p>
+          </div>
+        ) : (
+          /* Gallery Grid */
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {filteredDocs.map((doc) => (
+              <div
+                key={doc.id}
+                onClick={() => setActiveItem(doc)}
+                className="group cursor-pointer bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-soft hover:shadow-card transition-all duration-300 hover:-translate-y-1.5 flex flex-col"
+              >
+                {/* Photo Area */}
+                <div className="relative w-full aspect-[4/3] bg-slate-100 overflow-hidden">
+                  <Image
+                    src={doc.image}
+                    alt={doc.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    unoptimized={doc.image.startsWith('http')}
+                  />
 
-                {/* Badge Overlay */}
-                <div className="absolute top-3 left-3">
-                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-bold bg-matanavy-900/80 backdrop-blur-md text-white border border-white/20">
-                    <Sparkles className="w-3 h-3 text-matagold-400" />
-                    {doc.badge}
-                  </span>
-                </div>
-
-                <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="w-9 h-9 rounded-full bg-white/90 backdrop-blur-xs flex items-center justify-center text-matanavy-900 shadow-md">
-                    <ZoomIn className="w-4 h-4" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Text Area */}
-              <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-                <div>
-                  {/* Meta: Location and Date */}
-                  <div className="flex flex-wrap items-center gap-y-1 gap-x-3 text-xs text-slate-500 mb-2">
-                    <span className="flex items-center gap-1 font-medium text-matablue-700">
-                      <MapPin className="w-3.5 h-3.5" />
-                      {doc.location}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5" />
-                      {doc.date}
+                  {/* Badge Overlay */}
+                  <div className="absolute top-3 left-3">
+                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-bold bg-matanavy-900/80 backdrop-blur-md text-white border border-white/20">
+                      <Sparkles className="w-3 h-3 text-matagold-400" />
+                      {doc.badge}
                     </span>
                   </div>
 
-                  {/* Title */}
-                  <h3 className="text-base sm:text-lg font-bold text-matanavy-900 group-hover:text-matablue-600 transition leading-snug">
-                    {doc.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-xs text-slate-600 leading-relaxed mt-2 line-clamp-3">
-                    {doc.description}
-                  </p>
+                  <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="w-9 h-9 rounded-full bg-white/90 backdrop-blur-xs flex items-center justify-center text-matanavy-900 shadow-md">
+                      <ZoomIn className="w-4 h-4" />
+                    </div>
+                  </div>
                 </div>
 
-                {/* Footer participants */}
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                  <span className="flex items-center gap-1.5 font-semibold text-matanavy-800">
-                    <Users className="w-3.5 h-3.5 text-matablue-500" />
-                    {doc.participants} Orang Diperiksa
-                  </span>
-                  <span className="text-matablue-600 font-bold flex items-center gap-0.5 group-hover:translate-x-0.5 transition">
-                    Lihat Foto <ChevronRight className="w-3.5 h-3.5" />
-                  </span>
+                {/* Text Area */}
+                <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                  <div>
+                    {/* Meta: Location and Date */}
+                    <div className="flex flex-wrap items-center gap-y-1 gap-x-3 text-xs text-slate-500 mb-2">
+                      <span className="flex items-center gap-1 font-medium text-matablue-700">
+                        <MapPin className="w-3.5 h-3.5" />
+                        {doc.location}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-3.5 h-3.5" />
+                        {doc.date}
+                      </span>
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-base sm:text-lg font-bold text-matanavy-900 group-hover:text-matablue-600 transition leading-snug">
+                      {doc.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-xs text-slate-600 leading-relaxed mt-2 line-clamp-3">
+                      {doc.description}
+                    </p>
+                  </div>
+
+                  {/* Footer participants */}
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                    <span className="flex items-center gap-1.5 font-semibold text-matanavy-800">
+                      <Users className="w-3.5 h-3.5 text-matablue-500" />
+                      {doc.participants} Orang Diperiksa
+                    </span>
+                    <span className="text-matablue-600 font-bold flex items-center gap-0.5 group-hover:translate-x-0.5 transition">
+                      Lihat Foto <ChevronRight className="w-3.5 h-3.5" />
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* Bottom invitation card */}
         <div className="mt-14 p-6 sm:p-8 bg-gradient-to-r from-matablue-50 via-white to-matagold-50 rounded-3xl border border-matablue-200/80 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xs">
@@ -206,6 +243,7 @@ export const DocumentationGallery: React.FC = () => {
                 fill
                 className="object-cover"
                 priority
+                unoptimized={activeItem.image.startsWith('http')}
               />
             </div>
 
