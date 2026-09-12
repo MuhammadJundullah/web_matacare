@@ -39,7 +39,17 @@ interface DocItem {
   created_at: string;
 }
 
-const emptyForm = {
+const emptyForm: {
+  title: string;
+  category: typeof CATEGORIES[number];
+  date: string;
+  location: string;
+  participants: string;
+  description: string;
+  badge: string;
+  imageBase64: string;
+  imagePreview: string;
+} = {
   title: '',
   category: CATEGORIES[0],
   date: '',
@@ -110,7 +120,7 @@ export default function AdminDokumentasiPage() {
   const openEdit = (doc: DocItem) => {
     setForm({
       title: doc.title,
-      category: doc.category,
+      category: doc.category as typeof CATEGORIES[number],
       date: doc.date,
       location: doc.location,
       participants: String(doc.participants),
@@ -399,7 +409,7 @@ export default function AdminDokumentasiPage() {
                   <div className="relative">
                     <select
                       value={form.category}
-                      onChange={(e) => setForm({ ...form, category: e.target.value })}
+                      onChange={(e) => setForm({ ...form, category: e.target.value as typeof CATEGORIES[number] })}
                       className="w-full appearance-none px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition pr-8"
                       required
                     >
