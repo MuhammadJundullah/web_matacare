@@ -34,8 +34,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAdvisor }) => {
       <div className="bg-gradient-to-r from-matanavy-900 via-matanavy-800 to-matablue-900 text-white text-xs py-1.5 px-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-matablue-500 text-white">
-              OPTIK KELILING
+            <span className="hidden sm:inline inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-matablue-500 text-white sm:">
+              Instagram : @MataCare_Optik
             </span>
             <span className="hidden sm:inline text-slate-200">
               Mata Sehat, Investasi Masa Depan ♡ Layanan pemeriksaan langsung di lokasi Anda!
