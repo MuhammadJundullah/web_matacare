@@ -47,7 +47,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAdvisor }) => {
 
           <div className="flex items-center gap-4 text-slate-300">
             <span className="hidden md:inline text-[11px] text-matablue-300">
-              📍 MataCare Optik Keliling — Datang ke Tempat Anda
+              📍 MataCare Optik — Datang ke Tempat Anda
             </span>
             <a
               href="https://wa.me/6282272108340?text=Halo%20MataCare%20Optik%2C%20saya%20ingin%20tanya%20jadwal%20layanan%20optik%20keliling"

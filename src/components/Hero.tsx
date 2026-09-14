@@ -37,7 +37,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAdvisor }) => {
 
             {/* Main Headline */}
             <h1 className="text-3xl sm:text-5xl lg:text-5xl xl:text-6xl font-black text-matanavy-900 tracking-tight leading-[1.15]">
-              Layanan Optik Keliling & <br />
+              Layanan Optik & <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-matablue-500 via-matablue-600 to-matanavy-800">
                 Pemeriksaan Mata Profesional
               </span>
@@ -116,7 +116,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAdvisor }) => {
               <div className="absolute -top-4 -left-4 z-20 bg-gradient-to-r from-matablue-600 to-matanavy-900 text-white px-4 py-2 rounded-2xl shadow-xl shadow-matablue-500/20 flex items-center gap-2 border border-white/20 transform -rotate-2">
                 <Sparkles className="w-5 h-5 text-matagold-400" />
                 <div className="text-left text-[11px] leading-tight font-medium">
-                  <span className="block font-bold">Layanan Keliling</span>
+                  <span className="block font-bold">Layanan Optik</span>
                   <span className="opacity-90">Bebas Antre & Nyaman</span>
                 </div>
               </div>
@@ -127,7 +127,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAdvisor }) => {
                   <Car className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-matanavy-900">MataCare Optik Keliling</h4>
+                  <h4 className="text-xs font-bold text-matanavy-900">MataCare Optik</h4>
                   <p className="text-[11px] text-slate-500">Pemeriksaan langsung di tempat Anda</p>
                 </div>
               </div>
@@ -147,7 +147,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAdvisor }) => {
                   {/* Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-matanavy-950/85 via-matanavy-900/30 to-transparent flex flex-col justify-end p-5 text-white">
                     <span className="text-xs uppercase tracking-wider font-semibold text-matagold-400">
-                      Optik Keliling Profesional
+                      Layanan Optik Profesional
                     </span>
                     <h3 className="text-lg font-bold text-white leading-tight mt-1">
                       Pemeriksaan Refraksi & Fitting Kacamata

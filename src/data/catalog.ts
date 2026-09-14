@@ -18,8 +18,8 @@ export interface LensProduct {
 
 export const LENS_PRODUCTS: LensProduct[] = [
   {
-    id: 'lensa-biasa',
-    name: 'Lensa Biasa',
+    id: 'lensa-biasa (CRMC)',
+    name: 'CRMC (Lensa Biasa)',
     series: 'Standar & Proteksi',
     originalPrice: 700000,
     discountPercent: 10,
@@ -101,7 +101,7 @@ export const LENS_PRODUCTS: LensProduct[] = [
   },
   {
     id: 'progresif-crmc',
-    name: 'Progresif CRMC',
+    name: 'Progresif CRMC (Lensa Biasa)',
     series: 'Progresif',
     originalPrice: 1500000,
     discountPercent: 10,
