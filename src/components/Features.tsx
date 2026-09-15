@@ -89,7 +89,7 @@ export const Features: React.FC = () => {
                 <div>
                   {/* Icon Circle */}
                   <div className={`w-13 h-13 rounded-xl bg-gradient-to-tr ${item.color} text-white flex items-center justify-center mb-5 shadow-md group-hover:scale-110 transition-transform`}>
-                    <Icon className="w-6 h-6" />
+                    <Icon className="w-6 h-11" />
                   </div>
 
                   {/* Title & Subtitle */}

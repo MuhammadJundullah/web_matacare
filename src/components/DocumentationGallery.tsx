@@ -56,7 +56,7 @@ export const DocumentationGallery: React.FC = () => {
         <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-matablue-100 border border-matablue-200 text-matablue-800 text-xs font-semibold">
             <Camera className="w-3.5 h-3.5 text-matablue-600" />
-            <span>Galeri Lapangan &amp; Kegiatan Nyata</span>
+            <span>Galeri Lapangan &amp; Kegiatan</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl font-extrabold text-matanavy-900 tracking-tight">
@@ -69,7 +69,7 @@ export const DocumentationGallery: React.FC = () => {
         </div>
 
         {/* Impact Statistics Bar */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-14">
+   {/*     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-14">
           {IMPACT_STATS.map((stat, idx) => (
             <div 
               key={idx}
@@ -82,7 +82,7 @@ export const DocumentationGallery: React.FC = () => {
               <p className="text-[11px] text-slate-500 mt-0.5">{stat.desc}</p>
             </div>
           ))}
-        </div>
+        </div>*/}
 
         {/* Category Filters */}
         <div className="flex items-center justify-center gap-2 overflow-x-auto pb-4 mb-8">

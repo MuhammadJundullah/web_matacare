@@ -147,12 +147,12 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-          <p>© {new Date().getFullYear()} MataCare Optik. Seluruh hak cipta dilindungi undang-undang.</p>
+          <p>© {new Date().getFullYear()} MataCare Optik.</p>
           
           <div className="flex items-center gap-4">
-            <span className="text-slate-400 flex items-center gap-1">
+          {/*  <span className="text-slate-400 flex items-center gap-1">
               Dibuat dengan <Heart className="w-3.5 h-3.5 text-matared-500 fill-matared-500" /> untuk penglihatan yang lebih baik
-            </span>
+            </span>*/}
             <button
               onClick={scrollToTop}
               className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white transition flex items-center gap-1"
