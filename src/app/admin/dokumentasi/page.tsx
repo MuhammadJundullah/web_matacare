@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import {
   Plus, Pencil, Trash2, Loader2, LogOut, Camera, X,
   MapPin, Calendar, Users, Tag, AlignLeft, Image as ImageIcon,
-  LayoutDashboard, ChevronDown
+  LayoutDashboard, ChevronDown, ShoppingBag, Eye, Package
 } from 'lucide-react';
 
 const CATEGORIES = [
@@ -236,6 +236,32 @@ export default function AdminDokumentasiPage() {
           </div>
         </div>
       </header>
+
+      {/* Nav Tabs */}
+      <div className="bg-white border-b border-slate-200 sticky top-16 z-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <nav className="flex gap-1 overflow-x-auto">
+            <a
+              href="/admin/orderan"
+              className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent whitespace-nowrap"
+            >
+              <ShoppingBag className="w-3.5 h-3.5" /> Orderan
+            </a>
+            <a
+              href="/admin/dokumentasi"
+              className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-blue-600 border-b-2 border-blue-600 whitespace-nowrap"
+            >
+              <Eye className="w-3.5 h-3.5" /> Dokumentasi
+            </a>
+            <a
+              href="/admin/jenis-lensa"
+              className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent whitespace-nowrap"
+            >
+              <Package className="w-3.5 h-3.5" /> Jenis Lensa
+            </a>
+          </nav>
+        </div>
+      </div>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

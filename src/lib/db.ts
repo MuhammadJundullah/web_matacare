@@ -24,6 +24,29 @@ export async function initializeDatabase() {
   `;
 
   await sql`
+    CREATE TABLE IF NOT EXISTS lens_types (
+      id         SERIAL PRIMARY KEY,
+      name       TEXT UNIQUE NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS orders (
+      id         SERIAL PRIMARY KEY,
+      order_date TEXT NOT NULL,
+      name       TEXT NOT NULL,
+      age        INTEGER,
+      phone      TEXT NOT NULL,
+      address    TEXT NOT NULL,
+      lens_type  TEXT NOT NULL,
+      nominal    BIGINT NOT NULL,
+      notes      TEXT,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `;
+
+  await sql`
     CREATE TABLE IF NOT EXISTS admin_users (
       id          SERIAL PRIMARY KEY,
       username    TEXT UNIQUE NOT NULL,
@@ -36,6 +59,11 @@ export async function initializeDatabase() {
   if (Number(adminCount) === 0) {
     const hashed = bcrypt.hashSync('matacare2024', 10);
     await sql`INSERT INTO admin_users (username, password) VALUES ('admin', ${hashed})`;
+  }
+
+  const [{ count: lensCount }] = await sql`SELECT COUNT(*) as count FROM lens_types`;
+  if (Number(lensCount) === 0) {
+    await sql`INSERT INTO lens_types (name) VALUES ('Single Vision'), ('Bifocal'), ('Progressive'), ('Blue Cut'), ('Photochromic')`;
   }
 
   const [{ count: docCount }] = await sql`SELECT COUNT(*) as count FROM documentation`;
