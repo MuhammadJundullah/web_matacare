@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-  Plus, Pencil, Trash2, Loader2, LogOut, X,
+  Plus, Pencil, Trash2, Loader2, LogOut, X, FileText, ImageDown,
   ShoppingBag, LayoutDashboard, Package, Eye,
 } from 'lucide-react';
 
@@ -164,8 +164,100 @@ export default function AdminOrderanPage() {
     router.push('/admin/login');
   };
 
-  const formatRupiah = (val: number) =>
-    'Rp\u00a0' + val.toLocaleString('id-ID');
+  const formatRupiah = (val: number | string) =>
+    'Rp\u00a0' + Number(val).toLocaleString('id-ID');
+
+  const escapeHtml = (value: string) =>
+    value.replace(/[&<>"']/g, (char) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+    })[char] as string);
+
+  const invoiceMarkup = (order: Order) => `
+    <article class="invoice">
+      <header class="invoice-header">
+        <div><div class="brand">MataCare <span>Optik</span></div><div class="muted">Layanan Optik & Pemeriksaan Mata</div></div>
+        <div class="invoice-label"><div>INVOICE</div><strong>MC-${String(order.id).padStart(5, '0')}</strong></div>
+      </header>
+      <div class="rule"></div>
+      <section class="meta"><div><small>TANGGAL ORDER</small><strong>${escapeHtml(order.order_date)}</strong></div><div><small>NO. INVOICE</small><strong>MC-${String(order.id).padStart(5, '0')}</strong></div></section>
+      <h2>Informasi Pelanggan</h2>
+      <section class="customer"><div><small>NAMA</small><strong>${escapeHtml(order.name)}</strong></div><div><small>NO. TELEPON</small><strong>${escapeHtml(order.phone)}</strong></div><div><small>UMUR</small><strong>${order.age ?? '—'}${order.age !== null ? ' tahun' : ''}</strong></div><div><small>ALAMAT</small><strong>${escapeHtml(order.address)}</strong></div></section>
+      <h2>Rincian Pesanan</h2>
+      <table><thead><tr><th>DESKRIPSI</th><th class="right">JUMLAH</th></tr></thead><tbody><tr><td>Order kacamata — ${escapeHtml(order.lens_type)}</td><td class="right">${formatRupiah(order.nominal)}</td></tr></tbody></table>
+      ${order.notes ? `<div class="notes"><small>KETERANGAN</small><div>${escapeHtml(order.notes)}</div></div>` : ''}
+      <div class="total"><span>Total</span><strong>${formatRupiah(order.nominal)}</strong></div>
+      <footer>Terima kasih telah mempercayakan kebutuhan penglihatan Anda kepada MataCare Optik.</footer>
+    </article>`;
+
+  const invoiceStyles = `
+    *{box-sizing:border-box}body{margin:0;background:#f1f5f9;color:#0f172a;font-family:Arial,sans-serif}.invoice{width:794px;min-height:1123px;margin:32px auto;padding:64px;background:white}.invoice-header,.meta,.total{display:flex;justify-content:space-between;align-items:center}.brand{font-size:27px;font-weight:800;color:#123456}.brand span{color:#2563eb}.muted,small{color:#64748b}.muted{font-size:12px;margin-top:6px}.invoice-label{text-align:right;color:#2563eb;font-size:12px;font-weight:700;letter-spacing:2px}.invoice-label strong{display:block;color:#0f172a;font-size:15px;letter-spacing:0;margin-top:8px}.rule{height:3px;background:#2563eb;margin:28px 0}.meta{background:#f8fafc;padding:18px 20px}.meta>div,.customer>div{display:flex;flex-direction:column;gap:7px}small{font-size:9px;font-weight:700;letter-spacing:1px}.meta strong,.customer strong{font-size:13px;font-weight:600}h2{font-size:14px;margin:32px 0 14px}.customer{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:18px 20px;border:1px solid #e2e8f0;border-radius:8px}table{width:100%;border-collapse:collapse;font-size:13px}th{text-align:left;background:#f8fafc;color:#64748b;font-size:10px;letter-spacing:1px}th,td{padding:15px;border-bottom:1px solid #e2e8f0}.right{text-align:right}.notes{margin-top:20px;padding:14px;background:#f8fafc;font-size:12px}.notes div{margin-top:8px;white-space:pre-wrap}.total{margin-top:20px;padding:18px 0;border-top:2px solid #0f172a;font-size:16px}.total strong{font-size:21px;color:#2563eb}footer{margin-top:70px;padding-top:18px;border-top:1px solid #e2e8f0;text-align:center;color:#64748b;font-size:11px}@page{size:A4;margin:0}@media print{body{background:white}.invoice{margin:0;width:210mm;min-height:297mm;padding:17mm;box-shadow:none}}`;
+
+  const exportInvoicePdf = (order: Order) => {
+    const printWindow = window.open('', '_blank', 'width=900,height=700');
+    if (!printWindow) {
+      setError('Izinkan pop-up browser untuk mencetak invoice.');
+      return;
+    }
+    printWindow.document.open();
+    printWindow.document.write(`<!doctype html><html lang="id"><head><meta charset="utf-8"><title>Invoice MataCare MC-${order.id}</title><style>${invoiceStyles}</style></head><body>${invoiceMarkup(order)}<script>window.onload=()=>{window.print()}<\/script></body></html>`);
+    printWindow.document.close();
+  };
+
+  const exportInvoicePng = (order: Order) => {
+    const svgEscape = (value: string) => escapeHtml(value);
+    const lines: Array<[string, number, number, number, string, string]> = [
+      ['MataCare Optik', 54, 70, 30, '#123456', 'bold'],
+      ['INVOICE', 650, 66, 15, '#2563eb', 'bold'],
+      [`MC-${String(order.id).padStart(5, '0')}`, 650, 94, 17, '#0f172a', 'bold'],
+      ['Tanggal Order', 54, 150, 13, '#64748b', 'normal'],
+      [order.order_date, 54, 176, 17, '#0f172a', 'bold'],
+      ['PELANGGAN', 54, 246, 13, '#2563eb', 'bold'],
+      ['Nama', 54, 292, 12, '#64748b', 'normal'], [order.name, 54, 317, 17, '#0f172a', 'bold'],
+      ['Telepon', 410, 292, 12, '#64748b', 'normal'], [order.phone, 410, 317, 17, '#0f172a', 'bold'],
+      ['Alamat', 54, 365, 12, '#64748b', 'normal'], [order.address, 54, 390, 15, '#0f172a', 'normal'],
+      ['RINCIAN PESANAN', 54, 470, 13, '#2563eb', 'bold'],
+      [`Order kacamata — ${order.lens_type}`, 54, 530, 17, '#0f172a', 'normal'],
+      [formatRupiah(order.nominal), 650, 530, 17, '#0f172a', 'bold'],
+      ['TOTAL', 54, 620, 14, '#64748b', 'bold'],
+      [formatRupiah(order.nominal), 650, 624, 22, '#2563eb', 'bold'],
+      ['Terima kasih telah mempercayakan kebutuhan penglihatan Anda kepada MataCare Optik.', 54, 1030, 13, '#64748b', 'normal'],
+    ];
+    if (order.notes) {
+      lines.push([`Keterangan: ${order.notes}`, 54, 690, 14, '#64748b', 'normal']);
+    }
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="794" height="1123" viewBox="0 0 794 1123"><rect width="794" height="1123" fill="#fff"/><rect x="54" y="118" width="686" height="3" fill="#2563eb"/><rect x="54" y="215" width="686" height="1" fill="#e2e8f0"/><rect x="54" y="440" width="686" height="1" fill="#e2e8f0"/><rect x="54" y="490" width="686" height="70" rx="8" fill="#f8fafc"/>${lines.map(([text, x, y, size, color, weight]) => `<text x="${x}" y="${y}" font-family="Arial,sans-serif" font-size="${size}" font-weight="${weight}" fill="${color}"${x === 650 ? ' text-anchor="end"' : ''}>${svgEscape(String(text))}</text>`).join('')}</svg>`;
+    const image = new Image();
+    const svgUrl = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml;charset=utf-8' }));
+    image.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1588;
+      canvas.height = 2246;
+      const context = canvas.getContext('2d');
+      if (!context) {
+        URL.revokeObjectURL(svgUrl);
+        setError('Gagal membuat gambar invoice.');
+        return;
+      }
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      URL.revokeObjectURL(svgUrl);
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          setError('Gagal mengunduh gambar invoice.');
+          return;
+        }
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `invoice-matacare-${order.id}.png`;
+        link.click();
+        URL.revokeObjectURL(link.href);
+      }, 'image/png');
+    };
+    image.onerror = () => {
+      URL.revokeObjectURL(svgUrl);
+      setError('Gagal membuat gambar invoice.');
+    };
+    image.src = svgUrl;
+  };
 
   return (
     <div className="min-h-screen bg-slate-100">
@@ -304,6 +396,20 @@ export default function AdminOrderanPage() {
                             title="Edit"
                           >
                             <Pencil className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            onClick={() => exportInvoicePdf(order)}
+                            className="inline-flex items-center gap-1 px-2 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold transition"
+                            title="Cetak atau simpan invoice sebagai PDF"
+                          >
+                            <FileText className="w-3.5 h-3.5" /> PDF
+                          </button>
+                          <button
+                            onClick={() => exportInvoicePng(order)}
+                            className="inline-flex items-center gap-1 px-2 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold transition"
+                            title="Unduh invoice sebagai PNG"
+                          >
+                            <ImageDown className="w-3.5 h-3.5" /> PNG
                           </button>
                           <button
                             onClick={() => setDeleteId(order.id)}
